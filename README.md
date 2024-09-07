@@ -1,9 +1,5 @@
 # Staircase Cascaded Fusion of Lightweight Local Pattern Recognition and Long-Range Dependencies for Structural Crack Segmentation
 
-## Network Architecture
-
-Authors: Hui Liu, Chen Jia, Fan Shi, Member, IEEE, Xu Cheng, Member, IEEE, Mianzhao Wang, and Shengyong Chen Senior Member, IEEE
-
 ## Requirements
 
 ### Environment requirements: 
