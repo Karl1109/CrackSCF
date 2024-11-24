@@ -40,7 +40,7 @@ conda activate crackscf
 Install the torch, torchvision and torchaudio
 
 ``````
-pip install torch==2.3.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.3.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torch==2.1.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.1.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
 ``````
 
 Now, you can install other requirements:
