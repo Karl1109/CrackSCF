@@ -1,0 +1,4 @@
+# ninja log v5
+0	10437	1727615505317160030	/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/build/temp.linux-x86_64-cpython-38/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/src/cpu/ms_deform_attn_cpu.o	de5997411d385624
+1	20753	1727615515609180781	/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/build/temp.linux-x86_64-cpython-38/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/src/cuda/ms_deform_attn_cuda.o	d87f1a199216f791
+1	27688	1727615522561194812	/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/build/temp.linux-x86_64-cpython-38/home/b311/data3/liuhui/Research/Code_Dataset/CrackSCF/models/ops/src/vision.o	c6d9c09ebc24677c
