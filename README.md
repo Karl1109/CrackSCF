@@ -15,7 +15,6 @@
 - tqdm 4.66.1
 - opencv-python 4.8.1.78
 - einops 0.7.0
-- torch  2.1.1
 - torchaudio 2.1.1
 - torchinfo 1.8.0
 - torchsummary 1.5.1
@@ -40,7 +39,7 @@ conda activate crackscf
 Install the torch, torchvision and torchaudio
 
 ``````
-pip install torch==2.1.1+cu118 torchvision==0.18.1+cu118 torchaudio==2.1.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
+pip install torch==2.1.1+cu118 -f https://download.pytorch.org/whl/torch_stable.html
 ``````
 
 Now, you can install other requirements:
