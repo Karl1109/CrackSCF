@@ -31,6 +31,7 @@ def get_args_parser():
     parser.add_argument('--DiceLoss_ratio', default=0.25, type=float)
     parser.add_argument('--batch_size_train', type=int, default=1, help='train input batch size')
     parser.add_argument('--batch_size_test', type=int, default=1, help='test input batch size')
+    parser.add_argument('--batch_size_val', type=int, default=1, help='val input batch size')
 
     # args for MFE
     parser.add_argument('--backbone', default='resnet50', type=str, help="Name of the convolutional backbone to use")
@@ -57,7 +58,7 @@ def get_args_parser():
     parser.add_argument('--dataset_mode', type=str, default='crack')
     parser.add_argument('--serial_batches', action='store_true', help='if true, takes images in order to make batches, takes them randomly')
     parser.add_argument('--num_threads', default=1, type=int, help='threads for loading data')
-    parser.add_argument('--phase', type=str, default='train', help='train, val, test, etc')
+    parser.add_argument('--phase', type=str, default='train', help='train, val, etc')
     parser.add_argument('--load_width', type=int, default=384, help='load image width')
     parser.add_argument('--load_height', type=int, default=384, help='load image height')
 
@@ -75,7 +76,7 @@ def main(args):
         print("create process floder error!")
 
     log_train = get_logger(process_floder_path, 'train')
-    log_test = get_logger(process_floder_path, 'test')
+    log_val = get_logger(process_floder_path, 'val')
     log_eval = get_logger(process_floder_path, 'eval')
 
     log_train.info("args -> " + str(args))
@@ -159,18 +160,18 @@ def main(args):
         print("training epoch finish -> ", epoch)
         print("---------------------------------------------------------------------------------------")
 
-        print("testing epoch start -> ", epoch)
+        print("valing epoch start -> ", epoch)
         results_path = curTime + '_Dataset->' + dataset_name + '_BCERatio->' + str(args.BCELoss_ratio) + '_DiceRatio->' + str(args.DiceLoss_ratio) + '_layerNum->' + str(args.enc_layers)
         save_root = f'./results/{results_path}/results_' + str(epoch)
-        args.phase = 'test'
-        args.batch_size = args.batch_size_test
-        test_dl = create_dataset(args)
-        pbar = tqdm(total=len(test_dl), desc=f"Initial Loss: Pending")
+        args.phase = 'val'
+        args.batch_size = args.batch_size_val
+        val_dl = create_dataset(args)
+        pbar = tqdm(total=len(val_dl), desc=f"Initial Loss: Pending")
 
         if not os.path.isdir(save_root):
             os.makedirs(save_root)
         with torch.no_grad():
-            for batch_idx, (data) in enumerate(test_dl):
+            for batch_idx, (data) in enumerate(val_dl):
                 x = data["image"]
                 target = data["label"]
                 if device != 'cpu':
@@ -189,20 +190,20 @@ def main(args):
                 # out[out >= 0.3] = 255
                 # out[out < 0.3] = 0
 
-                log_test.info('----------------------------------------------------------------------------------------------')
-                log_test.info("loss -> " + str(loss))
-                log_test.info(str(os.path.join(save_root, "{}_lab.png".format(root_name))))
-                log_test.info(str(os.path.join(save_root, "{}_pre.png".format(root_name))))
-                log_test.info('----------------------------------------------------------------------------------------------')
+                log_val.info('----------------------------------------------------------------------------------------------')
+                log_val.info("loss -> " + str(loss))
+                log_val.info(str(os.path.join(save_root, "{}_lab.png".format(root_name))))
+                log_val.info(str(os.path.join(save_root, "{}_pre.png".format(root_name))))
+                log_val.info('----------------------------------------------------------------------------------------------')
                 cv2.imwrite(os.path.join(save_root, "{}_lab.png".format(root_name)), target)
                 cv2.imwrite(os.path.join(save_root, "{}_pre.png".format(root_name)), out)
                 pbar.set_description(f"Loss: {loss.item():.4f}")
                 pbar.update(1)
 
         pbar.close()
-        log_test.info("model -> " + str(epoch) + " test finish!")
-        log_test.info('----------------------------------------------------------------------------------------------')
-        print("testing epoch finish -> ", epoch)
+        log_val.info("model -> " + str(epoch) + " val finish!")
+        log_val.info('----------------------------------------------------------------------------------------------')
+        print("validating epoch finish -> ", epoch)
 
         print("---------------------------------------------------------------------------------------")
         print("evalauting epoch start -> ", epoch)
